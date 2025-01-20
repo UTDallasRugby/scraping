@@ -81,4 +81,26 @@ Download the table
 
 This is where the API will be most beneficial
 
-https://usarugbystats.com/api/stats/club/pts/696/2015-2016?limit=50
+https://usarugbystats.com/api/stats/club/pts/696/2015-2016
+
+
+[2021-2022](https://usarugbystats.com/team/696/season/2021-2022)
+[2019-2020](https://usarugbystats.com/team/696/season/2019-2020)
+[2018-2019](https://usarugbystats.com/team/696/season/2018-2019)
+[2017-2018](https://usarugbystats.com/team/696/season/2017-2018)
+[2016-2017](https://usarugbystats.com/team/696/season/2016-2017)
+[2015-2016](https://usarugbystats.com/team/696/season/2015-2016)
+[2014-2015](https://usarugbystats.com/team/696/season/2014-2015)
+
+
+| url (https://usarugbystats.com)       | maps to       |
+| ------------------------------------- | ------------- |
+| /api/stats/club/pts/696/2015-2016     | points        |
+| /api/stats/club/tr/696/2015-2016      | Tries         |
+| /api/stats/club/cv/696/2015-2016      | conversions   |
+| /api/stats/club/pk/696/2015-2016      | penalty kicks |
+| /api/stats/club/dg/696/2015-2016      | drop goals    |
+| /api/stats/club/started/696/2015-2016 | Started       |
+| /api/stats/club/played/696/2015-2016  | Games played  |
+| /api/stats/club/yc/696/2015-2016      | Yellow cards  |
+| /api/stats/club/rc/696/2015-2016      | Red Cards     |
