@@ -83,7 +83,6 @@ This is where the API will be most beneficial
 
 https://usarugbystats.com/api/stats/club/pts/696/2015-2016
 
-
 [2021-2022](https://usarugbystats.com/team/696/season/2021-2022)
 [2019-2020](https://usarugbystats.com/team/696/season/2019-2020)
 [2018-2019](https://usarugbystats.com/team/696/season/2018-2019)
@@ -91,7 +90,6 @@ https://usarugbystats.com/api/stats/club/pts/696/2015-2016
 [2016-2017](https://usarugbystats.com/team/696/season/2016-2017)
 [2015-2016](https://usarugbystats.com/team/696/season/2015-2016)
 [2014-2015](https://usarugbystats.com/team/696/season/2014-2015)
-
 
 | url (https://usarugbystats.com)       | maps to       |
 | ------------------------------------- | ------------- |
@@ -104,3 +102,13 @@ https://usarugbystats.com/api/stats/club/pts/696/2015-2016
 | /api/stats/club/played/696/2015-2016  | Games played  |
 | /api/stats/club/yc/696/2015-2016      | Yellow cards  |
 | /api/stats/club/rc/696/2015-2016      | Red Cards     |
+
+https://usarugbystats.com/api/team/696/season/2021-2022
+
+## Embeds
+
+https://usarugbystats.com/embed/team/696/season/2021-2022
+https://usarugbystats.com/embed/team/696/season/2021-2022/schedule
+https://usarugbystats.com/embed/team/696/season/2021-2022/players
+https://usarugbystats.com/embed/team/696/season/2021-2022/standings
+https://usarugbystats.com/embed/team/696/season/2021-2022/stats
