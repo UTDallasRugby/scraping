@@ -10,7 +10,6 @@ all_tries AS (
            CAST(t.value->>'tr' AS INTEGER) as tries
     FROM base_stats,
          UNNEST(base_stats."696".stats."2021-2022".tries) AS t(value)
-    WHERE CAST(t.value->>'tr' AS INTEGER) > 0
 
     UNION ALL
 
@@ -18,7 +17,6 @@ all_tries AS (
            CAST(t.value->>'tr' AS INTEGER) as tries
     FROM base_stats,
          UNNEST(base_stats."696".stats."2019-2020".tries) AS t(value)
-    WHERE CAST(t.value->>'tr' AS INTEGER) > 0
 
     UNION ALL
 
@@ -26,7 +24,6 @@ all_tries AS (
            CAST(t.value->>'tr' AS INTEGER) as tries
     FROM base_stats,
          UNNEST(base_stats."696".stats."2018-2019".tries) AS t(value)
-    WHERE CAST(t.value->>'tr' AS INTEGER) > 0
 
     UNION ALL
 
@@ -34,7 +31,6 @@ all_tries AS (
            CAST(t.value->>'tr' AS INTEGER) as tries
     FROM base_stats,
          UNNEST(base_stats."696".stats."2017-2018".tries) AS t(value)
-    WHERE CAST(t.value->>'tr' AS INTEGER) > 0
 
     UNION ALL
 
@@ -42,7 +38,6 @@ all_tries AS (
            CAST(t.value->>'tr' AS INTEGER) as tries
     FROM base_stats,
          UNNEST(base_stats."696".stats."2016-2017".tries) AS t(value)
-    WHERE CAST(t.value->>'tr' AS INTEGER) > 0
 
     UNION ALL
 
@@ -50,7 +45,6 @@ all_tries AS (
            CAST(t.value->>'tr' AS INTEGER) as tries
     FROM base_stats,
          UNNEST(base_stats."696".stats."2015-2016".tries) AS t(value)
-    WHERE CAST(t.value->>'tr' AS INTEGER) > 0
 
     UNION ALL
 
@@ -58,7 +52,6 @@ all_tries AS (
            CAST(t.value->>'tr' AS INTEGER) as tries
     FROM base_stats,
          UNNEST(base_stats."696".stats."2014-2015".tries) AS t(value)
-    WHERE CAST(t.value->>'tr' AS INTEGER) > 0
 )
 SELECT 
     player,
@@ -81,7 +74,6 @@ all_points AS (
            CAST(p.value->>'pts' AS INTEGER) as points
     FROM base_stats,
          UNNEST(base_stats."696".stats."2021-2022".points) AS p(value)
-    WHERE CAST(p.value->>'pts' AS INTEGER) > 0
 
     UNION ALL
 
@@ -89,7 +81,6 @@ all_points AS (
            CAST(p.value->>'pts' AS INTEGER) as points
     FROM base_stats,
          UNNEST(base_stats."696".stats."2019-2020".points) AS p(value)
-    WHERE CAST(p.value->>'pts' AS INTEGER) > 0
 
     UNION ALL
 
@@ -97,7 +88,6 @@ all_points AS (
            CAST(p.value->>'pts' AS INTEGER) as points
     FROM base_stats,
          UNNEST(base_stats."696".stats."2018-2019".points) AS p(value)
-    WHERE CAST(p.value->>'pts' AS INTEGER) > 0
 
     UNION ALL
 
@@ -105,7 +95,6 @@ all_points AS (
            CAST(p.value->>'pts' AS INTEGER) as points
     FROM base_stats,
          UNNEST(base_stats."696".stats."2017-2018".points) AS p(value)
-    WHERE CAST(p.value->>'pts' AS INTEGER) > 0
 
     UNION ALL
 
@@ -113,7 +102,6 @@ all_points AS (
            CAST(p.value->>'pts' AS INTEGER) as points
     FROM base_stats,
          UNNEST(base_stats."696".stats."2016-2017".points) AS p(value)
-    WHERE CAST(p.value->>'pts' AS INTEGER) > 0
 
     UNION ALL
 
@@ -121,7 +109,6 @@ all_points AS (
            CAST(p.value->>'pts' AS INTEGER) as points
     FROM base_stats,
          UNNEST(base_stats."696".stats."2015-2016".points) AS p(value)
-    WHERE CAST(p.value->>'pts' AS INTEGER) > 0
 
     UNION ALL
 
@@ -129,7 +116,6 @@ all_points AS (
            CAST(p.value->>'pts' AS INTEGER) as points
     FROM base_stats,
          UNNEST(base_stats."696".stats."2014-2015".points) AS p(value)
-    WHERE CAST(p.value->>'pts' AS INTEGER) > 0
 )
 SELECT 
     player,
@@ -321,3 +307,122 @@ WHERE CAST(t.value->>'tr' AS INTEGER) > 0
 QUALIFY rank <= 5
 
 ORDER BY season DESC, tries DESC;
+
+-- Add a visual separator
+SELECT '----------------------------------------' as "Season Separator";
+
+-- Edmund Miller's tries by season
+WITH base_stats AS (
+  SELECT * FROM read_json_auto('all_club_stats.json')
+)
+SELECT 
+    season,
+    tries
+FROM (
+    SELECT '2021-2022' as season, CAST(t.value->>'tr' AS INTEGER) as tries
+    FROM base_stats,
+         UNNEST(base_stats."696".stats."2021-2022".tries) AS t(value)
+    WHERE t.value->'person'->>'display_name' LIKE '%Miller, Edmund%'
+
+    UNION ALL
+
+    SELECT '2019-2020' as season, CAST(t.value->>'tr' AS INTEGER) as tries
+    FROM base_stats,
+         UNNEST(base_stats."696".stats."2019-2020".tries) AS t(value)
+    WHERE t.value->'person'->>'display_name' LIKE '%Miller, Edmund%'
+
+    UNION ALL
+
+    SELECT '2018-2019' as season, CAST(t.value->>'tr' AS INTEGER) as tries
+    FROM base_stats,
+         UNNEST(base_stats."696".stats."2018-2019".tries) AS t(value)
+    WHERE t.value->'person'->>'display_name' LIKE '%Miller, Edmund%'
+
+    UNION ALL
+
+    SELECT '2017-2018' as season, CAST(t.value->>'tr' AS INTEGER) as tries
+    FROM base_stats,
+         UNNEST(base_stats."696".stats."2017-2018".tries) AS t(value)
+    WHERE t.value->'person'->>'display_name' LIKE '%Miller, Edmund%'
+
+    UNION ALL
+
+    SELECT '2016-2017' as season, CAST(t.value->>'tr' AS INTEGER) as tries
+    FROM base_stats,
+         UNNEST(base_stats."696".stats."2016-2017".tries) AS t(value)
+    WHERE t.value->'person'->>'display_name' LIKE '%Miller, Edmund%'
+
+    UNION ALL
+
+    SELECT '2015-2016' as season, CAST(t.value->>'tr' AS INTEGER) as tries
+    FROM base_stats,
+         UNNEST(base_stats."696".stats."2015-2016".tries) AS t(value)
+    WHERE t.value->'person'->>'display_name' LIKE '%Miller, Edmund%'
+
+    UNION ALL
+
+    SELECT '2014-2015' as season, CAST(t.value->>'tr' AS INTEGER) as tries
+    FROM base_stats,
+         UNNEST(base_stats."696".stats."2014-2015".tries) AS t(value)
+    WHERE t.value->'person'->>'display_name' LIKE '%Miller, Edmund%'
+) seasons
+ORDER BY season;
+
+SELECT '----------------------------------------' as separator;
+
+-- Edmund Miller's points by season
+WITH base_stats AS (
+  SELECT * FROM read_json_auto('all_club_stats.json')
+)
+SELECT 
+    season,
+    points
+FROM (
+    SELECT '2021-2022' as season, CAST(p.value->>'pts' AS INTEGER) as points
+    FROM base_stats,
+         UNNEST(base_stats."696".stats."2021-2022".points) AS p(value)
+    WHERE p.value->'person'->>'display_name' LIKE '%Miller, Edmund%'
+
+    UNION ALL
+
+    SELECT '2019-2020' as season, CAST(p.value->>'pts' AS INTEGER) as points
+    FROM base_stats,
+         UNNEST(base_stats."696".stats."2019-2020".points) AS p(value)
+    WHERE p.value->'person'->>'display_name' LIKE '%Miller, Edmund%'
+
+    UNION ALL
+
+    SELECT '2018-2019' as season, CAST(p.value->>'pts' AS INTEGER) as points
+    FROM base_stats,
+         UNNEST(base_stats."696".stats."2018-2019".points) AS p(value)
+    WHERE p.value->'person'->>'display_name' LIKE '%Miller, Edmund%'
+
+    UNION ALL
+
+    SELECT '2017-2018' as season, CAST(p.value->>'pts' AS INTEGER) as points
+    FROM base_stats,
+         UNNEST(base_stats."696".stats."2017-2018".points) AS p(value)
+    WHERE p.value->'person'->>'display_name' LIKE '%Miller, Edmund%'
+
+    UNION ALL
+
+    SELECT '2016-2017' as season, CAST(p.value->>'pts' AS INTEGER) as points
+    FROM base_stats,
+         UNNEST(base_stats."696".stats."2016-2017".points) AS p(value)
+    WHERE p.value->'person'->>'display_name' LIKE '%Miller, Edmund%'
+
+    UNION ALL
+
+    SELECT '2015-2016' as season, CAST(p.value->>'pts' AS INTEGER) as points
+    FROM base_stats,
+         UNNEST(base_stats."696".stats."2015-2016".points) AS p(value)
+    WHERE p.value->'person'->>'display_name' LIKE '%Miller, Edmund%'
+
+    UNION ALL
+
+    SELECT '2014-2015' as season, CAST(p.value->>'pts' AS INTEGER) as points
+    FROM base_stats,
+         UNNEST(base_stats."696".stats."2014-2015".points) AS p(value)
+    WHERE p.value->'person'->>'display_name' LIKE '%Miller, Edmund%'
+) seasons
+ORDER BY season;
