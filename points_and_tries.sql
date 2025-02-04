@@ -1,6 +1,77 @@
 .mode box
 .headers on
 
+-- All-time try scorers
+WITH base_stats AS (
+  SELECT * FROM read_json_auto('all_club_stats.json')
+),
+all_tries AS (
+    SELECT t.value->'person'->>'display_name' as player,
+           CAST(t.value->>'tr' AS INTEGER) as tries
+    FROM base_stats,
+         UNNEST(base_stats."696".stats."2021-2022".tries) AS t(value)
+    WHERE CAST(t.value->>'tr' AS INTEGER) > 0
+
+    UNION ALL
+
+    SELECT t.value->'person'->>'display_name' as player,
+           CAST(t.value->>'tr' AS INTEGER) as tries
+    FROM base_stats,
+         UNNEST(base_stats."696".stats."2019-2020".tries) AS t(value)
+    WHERE CAST(t.value->>'tr' AS INTEGER) > 0
+
+    UNION ALL
+
+    SELECT t.value->'person'->>'display_name' as player,
+           CAST(t.value->>'tr' AS INTEGER) as tries
+    FROM base_stats,
+         UNNEST(base_stats."696".stats."2018-2019".tries) AS t(value)
+    WHERE CAST(t.value->>'tr' AS INTEGER) > 0
+
+    UNION ALL
+
+    SELECT t.value->'person'->>'display_name' as player,
+           CAST(t.value->>'tr' AS INTEGER) as tries
+    FROM base_stats,
+         UNNEST(base_stats."696".stats."2017-2018".tries) AS t(value)
+    WHERE CAST(t.value->>'tr' AS INTEGER) > 0
+
+    UNION ALL
+
+    SELECT t.value->'person'->>'display_name' as player,
+           CAST(t.value->>'tr' AS INTEGER) as tries
+    FROM base_stats,
+         UNNEST(base_stats."696".stats."2016-2017".tries) AS t(value)
+    WHERE CAST(t.value->>'tr' AS INTEGER) > 0
+
+    UNION ALL
+
+    SELECT t.value->'person'->>'display_name' as player,
+           CAST(t.value->>'tr' AS INTEGER) as tries
+    FROM base_stats,
+         UNNEST(base_stats."696".stats."2015-2016".tries) AS t(value)
+    WHERE CAST(t.value->>'tr' AS INTEGER) > 0
+
+    UNION ALL
+
+    SELECT t.value->'person'->>'display_name' as player,
+           CAST(t.value->>'tr' AS INTEGER) as tries
+    FROM base_stats,
+         UNNEST(base_stats."696".stats."2014-2015".tries) AS t(value)
+    WHERE CAST(t.value->>'tr' AS INTEGER) > 0
+)
+SELECT 
+    player,
+    SUM(tries) as total_tries,
+    COUNT(*) as seasons_with_tries
+FROM all_tries
+GROUP BY player
+ORDER BY total_tries DESC
+LIMIT 10;
+
+-- Add a visual separator
+SELECT '----------------------------------------' as "Season Separator";
+
 -- All-time points leaders
 WITH base_stats AS (
   SELECT * FROM read_json_auto('all_club_stats.json')
