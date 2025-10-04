@@ -1,0 +1,4 @@
+name: rugby_stats
+type: duckdb
+options:
+  filename: rugby_stats.duckdb
