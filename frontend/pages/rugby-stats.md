@@ -6,25 +6,17 @@ title: UTD Rugby Statistics
 
 Historical stats from the USA Rugby Stats system (2014-2022)
 
-## Season Overview
-
-```sql season_summary
-SELECT * FROM rugby_stats.season_summary
-```
-
-<DataTable data={season_summary} rows=10>
-    <Column id=season />
-    <Column id=total_points title="Total Points" />
-    <Column id=top_scorer title="Top Scorer" />
-    <Column id=top_points title="Points" />
-</DataTable>
-
-## Points Leaders by Season
-
 ```sql points_leaders
 SELECT * FROM rugby_stats.points_leaders
 WHERE points >= 5
 ```
+
+```sql tries_leaders
+SELECT * FROM rugby_stats.tries_leaders
+WHERE tries >= 2
+```
+
+## Season Filter
 
 <Dropdown name=season_filter>
     <DropdownOption value="%" valueLabel="All Seasons"/>
@@ -37,21 +29,25 @@ WHERE points >= 5
     <DropdownOption value="2014-2015"/>
 </Dropdown>
 
+## Points Leaders by Season
+
 ```sql filtered_points
-SELECT
-    season,
-    player,
-    points
-FROM rugby_stats.points_leaders
+SELECT *
+FROM ${points_leaders}
 WHERE season LIKE '${inputs.season_filter.value}'
-    AND points >= 5
 ORDER BY points DESC
 LIMIT 15
 ```
 
+<DataTable data={filtered_points} rows=15>
+    <Column id=season title="Season" />
+    <Column id=player title="Player" />
+    <Column id=points title="Points" />
+</DataTable>
+
 <BarChart
     data={filtered_points}
-    title="Top Points Scorers"
+    title="Top Points Scorers - {inputs.season_filter.label}"
     x=player
     y=points
     swapXY=true
@@ -59,26 +55,23 @@ LIMIT 15
 
 ## Tries Leaders by Season
 
-```sql tries_leaders
-SELECT * FROM rugby_stats.tries_leaders
-WHERE tries >= 2
-```
-
 ```sql filtered_tries
-SELECT
-    season,
-    player,
-    tries
-FROM rugby_stats.tries_leaders
+SELECT *
+FROM ${tries_leaders}
 WHERE season LIKE '${inputs.season_filter.value}'
-    AND tries >= 2
 ORDER BY tries DESC
 LIMIT 15
 ```
 
+<DataTable data={filtered_tries} rows=15>
+    <Column id=season title="Season" />
+    <Column id=player title="Player" />
+    <Column id=tries title="Tries" />
+</DataTable>
+
 <BarChart
     data={filtered_tries}
-    title="Top Try Scorers"
+    title="Top Try Scorers - {inputs.season_filter.label}"
     x=player
     y=tries
     swapXY=true
@@ -93,13 +86,13 @@ SELECT
     player,
     SUM(points) as total_points,
     COUNT(DISTINCT season) as seasons_played
-FROM rugby_stats.points_leaders
+FROM ${points_leaders}
 GROUP BY player
 ORDER BY total_points DESC
 LIMIT 10
 ```
 
-<DataTable data={all_time_points}>
+<DataTable data={all_time_points} rows=10>
     <Column id=player title="Player" />
     <Column id=total_points title="Total Points" />
     <Column id=seasons_played title="Seasons" />
@@ -112,13 +105,13 @@ SELECT
     player,
     SUM(tries) as total_tries,
     COUNT(DISTINCT season) as seasons_played
-FROM rugby_stats.tries_leaders
+FROM ${tries_leaders}
 GROUP BY player
 ORDER BY total_tries DESC
 LIMIT 10
 ```
 
-<DataTable data={all_time_tries}>
+<DataTable data={all_time_tries} rows=10>
     <Column id=player title="Player" />
     <Column id=total_tries title="Total Tries" />
     <Column id=seasons_played title="Seasons" />
