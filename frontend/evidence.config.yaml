@@ -6,42 +6,42 @@ theme:
   colorPalettes:
     default:
       light:
-        - "#236aa4"
-        - "#45a1bf"
-        - "#a5cdee"
-        - "#8dacbf"
-        - "#85c7c6"
-        - "#d2c6ac"
-        - "#f4b548"
-        - "#8f3d56"
-        - "#71b9f4"
-        - "#46a485"
+        - "#e87500" # UTD Orange
+        - "#154734" # UTD Green
+        - "#5fe0b7" # UTD Silverleaf
+        - "#ff9933" # Light Orange
+        - "#1e5f47" # Light Green
+        - "#7fe8c5" # Light Silverleaf
+        - "#cc6600" # Dark Orange
+        - "#0f3827" # Dark Green
+        - "#3fd8a8" # Dark Silverleaf
+        - "#f5a962" # Soft Orange
       dark:
-        - "#236aa4"
-        - "#45a1bf"
-        - "#a5cdee"
-        - "#8dacbf"
-        - "#85c7c6"
-        - "#d2c6ac"
-        - "#f4b548"
-        - "#8f3d56"
-        - "#71b9f4"
-        - "#46a485"
+        - "#ff9933" # Light Orange (better contrast on dark)
+        - "#2d8b64" # Medium Green
+        - "#7fe8c5" # Light Silverleaf
+        - "#ffb366" # Lighter Orange
+        - "#3aa67f" # Lighter Green
+        - "#9fedd6" # Lighter Silverleaf
+        - "#e87500" # UTD Orange
+        - "#1e5f47" # Medium Green
+        - "#5fe0b7" # UTD Silverleaf
+        - "#ffc799" # Pale Orange
   colorScales:
     default:
       light:
-        - "#ADD8E6"
-        - "#00008B"
+        - "#e87500" # UTD Orange
+        - "#154734" # UTD Green
       dark:
-        - "#ADD8E6"
-        - "#00008B"
+        - "#ff9933" # Light Orange
+        - "#2d8b64" # Light Green
   colors:
     primary:
-      light: "#2563eb"
-      dark: "#3b82f6"
+      light: "#e87500" # UTD Orange
+      dark: "#ff9933" # Light Orange for dark mode
     accent:
-      light: "#c2410c"
-      dark: "#fdba74"
+      light: "#154734" # UTD Green
+      dark: "#2d8b64" # Light Green for dark mode
     base:
       light: "#ffffff"
       dark: "#09090b"
@@ -65,17 +65,17 @@ plugins:
     "@evidence-dev/core-components": {}
 
   datasources:
-    # You can add additional datasources here by adding npm packages. 
+    # You can add additional datasources here by adding npm packages.
     # Make to also add them to `package.json`.
-    "@evidence-dev/bigquery": { }
-    "@evidence-dev/csv": { }
-    "@evidence-dev/databricks": { }
-    "@evidence-dev/duckdb": { }
-    "@evidence-dev/mssql": { }
-    "@evidence-dev/mysql": { }
-    "@evidence-dev/postgres": { }
-    "@evidence-dev/source-javascript": { }
-    "@evidence-dev/snowflake": { }
-    "@evidence-dev/sqlite": { }
-    "@evidence-dev/trino": { }
-    "@evidence-dev/motherduck": { }
+    "@evidence-dev/bigquery": {}
+    "@evidence-dev/csv": {}
+    "@evidence-dev/databricks": {}
+    "@evidence-dev/duckdb": {}
+    "@evidence-dev/mssql": {}
+    "@evidence-dev/mysql": {}
+    "@evidence-dev/postgres": {}
+    "@evidence-dev/source-javascript": {}
+    "@evidence-dev/snowflake": {}
+    "@evidence-dev/sqlite": {}
+    "@evidence-dev/trino": {}
+    "@evidence-dev/motherduck": {}
