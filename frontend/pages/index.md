@@ -10,7 +10,12 @@ Welcome to the UTD Rugby historical statistics archive. This site preserves team
 
 <BigLink href="/rugby-stats">
     <h2>Team Statistics Dashboard</h2>
-    <p>Browse points leaders, try scorers, and season summaries</p>
+    <p>Browse points leaders, try scorers, kicking stats, and games played</p>
+</BigLink>
+
+<BigLink href="/disciplinary">
+    <h2>Disciplinary Records</h2>
+    <p>View yellow and red card statistics across all seasons</p>
 </BigLink>
 
 ## About This Archive
@@ -19,13 +24,53 @@ After USA Rugby's bankruptcy in 2020, their stats system was moved to Rugby Xplo
 
 ### Data Coverage
 
+This archive contains **9 comprehensive stat categories** from all available seasons:
+
 - **Points** - Season and career scoring leaders
 - **Tries** - Top try scorers by season
-- **Conversions** - Conversion statistics
-- **Penalty Kicks & Drop Goals** - Kicking statistics
-- **Games Played** - Player appearances
-- **Disciplinary** - Yellow and red cards
+- **Conversions** - Conversion kicking statistics
+- **Penalty Kicks** - Successful penalty attempts
+- **Drop Goals** - Drop goal statistics
+- **Games Played** - Player match appearances
+- **Games Started** - Starting lineup appearances
+- **Yellow Cards** - Disciplinary warnings
+- **Red Cards** - Ejections and serious infractions
+
+### Quick Stats
+
+```sql total_stats
+SELECT
+    COUNT(DISTINCT player_name) as total_players,
+    COUNT(DISTINCT season) as total_seasons,
+    SUM(CASE WHEN category = 'points' THEN value ELSE 0 END) as total_points,
+    SUM(CASE WHEN category = 'tries' THEN value ELSE 0 END) as total_tries
+FROM needful_things.player_stats_by_season
+```
+
+<BigValue
+    data={total_stats}
+    value=total_players
+    title="Total Players"
+/>
+
+<BigValue
+    data={total_stats}
+    value=total_seasons
+    title="Seasons Tracked"
+/>
+
+<BigValue
+    data={total_stats}
+    value=total_points
+    title="Total Points Scored"
+/>
+
+<BigValue
+    data={total_stats}
+    value=total_tries
+    title="Total Tries"
+/>
 
 ---
 
-*Data sourced from USA Rugby Stats API before its deprecation*
+_Data sourced from USA Rugby Stats API before its deprecation_
