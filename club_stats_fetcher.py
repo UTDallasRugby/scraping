@@ -14,7 +14,7 @@ from datetime import datetime
 
 BASE_URL = "https://usarugbystats.com/api"
 
-def fetch_club_stats(club_id: str, season: str) -> Dict:
+def fetch_club_stats(club_id: str, season: str, limit: int = 100) -> Dict:
     """Fetch all stats for a specific club and season."""
     stats = {}
     endpoints = {
@@ -28,17 +28,17 @@ def fetch_club_stats(club_id: str, season: str) -> Dict:
         "yc": "yellow cards",
         "rc": "red cards"
     }
-    
+
     for endpoint, stat_name in endpoints.items():
         try:
-            url = f"{BASE_URL}/stats/club/{endpoint}/{club_id}/{season}"
+            url = f"{BASE_URL}/stats/club/{endpoint}/{club_id}/{season}?limit={limit}"
             response = requests.get(url)
             response.raise_for_status()
             stats[stat_name] = response.json()
             print(f"Successfully fetched {stat_name} for club {club_id} in {season}")
         except requests.exceptions.RequestException as e:
             print(f"Error fetching {stat_name} for club {club_id} in {season}: {e}")
-    
+
     return stats
 
 def get_seasons(start_year: int = 2014, end_year: int = None) -> List[str]:

@@ -36,9 +36,9 @@ ENDPOINTS = {
     "rc": "red cards"
 }
 
-def fetch_stats(stat_type: str, season: str) -> Dict:
+def fetch_stats(stat_type: str, season: str, limit: int = 100) -> Dict:
     """Fetch stats for a specific endpoint and season."""
-    url = f"{BASE_URL}/{stat_type}/{TEAM_ID}/{season}"
+    url = f"{BASE_URL}/{stat_type}/{TEAM_ID}/{season}?limit={limit}"
     response = requests.get(url)
     response.raise_for_status()
     return response.json()
