@@ -7,99 +7,11 @@ title: Disciplinary Records
 Yellow and red cards across all UTD Rugby seasons (2014-2022)
 
 ```sql yellow_cards_data
-WITH base_stats AS (
-  SELECT * FROM rugby_stats.rugby_data
-)
-SELECT
-  '2021-2022' as season,
-  yc.value->'person'->>'display_name' as player_name,
-  CAST(yc.value->>'yc' AS INTEGER) as yellow_cards
-FROM base_stats, UNNEST(base_stats.seasons."2021-2022"."yellow cards") AS yc(value)
-UNION ALL
-SELECT
-  '2019-2020' as season,
-  yc.value->'person'->>'display_name' as player_name,
-  CAST(yc.value->>'yc' AS INTEGER) as yellow_cards
-FROM base_stats, UNNEST(base_stats.seasons."2019-2020"."yellow cards") AS yc(value)
-UNION ALL
-SELECT
-  '2018-2019' as season,
-  yc.value->'person'->>'display_name' as player_name,
-  CAST(yc.value->>'yc' AS INTEGER) as yellow_cards
-FROM base_stats, UNNEST(base_stats.seasons."2018-2019"."yellow cards") AS yc(value)
-UNION ALL
-SELECT
-  '2017-2018' as season,
-  yc.value->'person'->>'display_name' as player_name,
-  CAST(yc.value->>'yc' AS INTEGER) as yellow_cards
-FROM base_stats, UNNEST(base_stats.seasons."2017-2018"."yellow cards") AS yc(value)
-UNION ALL
-SELECT
-  '2016-2017' as season,
-  yc.value->'person'->>'display_name' as player_name,
-  CAST(yc.value->>'yc' AS INTEGER) as yellow_cards
-FROM base_stats, UNNEST(base_stats.seasons."2016-2017"."yellow cards") AS yc(value)
-UNION ALL
-SELECT
-  '2015-2016' as season,
-  yc.value->'person'->>'display_name' as player_name,
-  CAST(yc.value->>'yc' AS INTEGER) as yellow_cards
-FROM base_stats, UNNEST(base_stats.seasons."2015-2016"."yellow cards") AS yc(value)
-UNION ALL
-SELECT
-  '2014-2015' as season,
-  yc.value->'person'->>'display_name' as player_name,
-  CAST(yc.value->>'yc' AS INTEGER) as yellow_cards
-FROM base_stats, UNNEST(base_stats.seasons."2014-2015"."yellow cards") AS yc(value)
-WHERE yellow_cards >= 1
+SELECT * FROM rugby_stats.all_yellow_cards
 ```
 
 ```sql red_cards_data
-WITH base_stats AS (
-  SELECT * FROM rugby_stats.rugby_data
-)
-SELECT
-  '2021-2022' as season,
-  rc.value->'person'->>'display_name' as player_name,
-  CAST(rc.value->>'rc' AS INTEGER) as red_cards
-FROM base_stats, UNNEST(base_stats.seasons."2021-2022"."red cards") AS rc(value)
-UNION ALL
-SELECT
-  '2019-2020' as season,
-  rc.value->'person'->>'display_name' as player_name,
-  CAST(rc.value->>'rc' AS INTEGER) as red_cards
-FROM base_stats, UNNEST(base_stats.seasons."2019-2020"."red cards") AS rc(value)
-UNION ALL
-SELECT
-  '2018-2019' as season,
-  rc.value->'person'->>'display_name' as player_name,
-  CAST(rc.value->>'rc' AS INTEGER) as red_cards
-FROM base_stats, UNNEST(base_stats.seasons."2018-2019"."red cards") AS rc(value)
-UNION ALL
-SELECT
-  '2017-2018' as season,
-  rc.value->'person'->>'display_name' as player_name,
-  CAST(rc.value->>'rc' AS INTEGER) as red_cards
-FROM base_stats, UNNEST(base_stats.seasons."2017-2018"."red cards") AS rc(value)
-UNION ALL
-SELECT
-  '2016-2017' as season,
-  rc.value->'person'->>'display_name' as player_name,
-  CAST(rc.value->>'rc' AS INTEGER) as red_cards
-FROM base_stats, UNNEST(base_stats.seasons."2016-2017"."red cards") AS rc(value)
-UNION ALL
-SELECT
-  '2015-2016' as season,
-  rc.value->'person'->>'display_name' as player_name,
-  CAST(rc.value->>'rc' AS INTEGER) as red_cards
-FROM base_stats, UNNEST(base_stats.seasons."2015-2016"."red cards") AS rc(value)
-UNION ALL
-SELECT
-  '2014-2015' as season,
-  rc.value->'person'->>'display_name' as player_name,
-  CAST(rc.value->>'rc' AS INTEGER) as red_cards
-FROM base_stats, UNNEST(base_stats.seasons."2014-2015"."red cards") AS rc(value)
-WHERE red_cards >= 1
+SELECT * FROM rugby_stats.all_red_cards
 ```
 
 ```sql disciplinary_combined
@@ -251,55 +163,9 @@ LIMIT 10
 Players with the most games played and zero disciplinary record
 
 ```sql cleanest_players
-WITH base_stats AS (
-  SELECT * FROM rugby_stats.rugby_data
-),
-games_played AS (
-  SELECT
-    '2021-2022' as season,
-    gp.value->'person'->>'display_name' as player_name,
-    CAST(gp.value->>'played' AS INTEGER) as games
-  FROM base_stats, UNNEST(base_stats.seasons."2021-2022"."games played") AS gp(value)
-  UNION ALL
-  SELECT
-    '2019-2020' as season,
-    gp.value->'person'->>'display_name' as player_name,
-    CAST(gp.value->>'played' AS INTEGER) as games
-  FROM base_stats, UNNEST(base_stats.seasons."2019-2020"."games played") AS gp(value)
-  UNION ALL
-  SELECT
-    '2018-2019' as season,
-    gp.value->'person'->>'display_name' as player_name,
-    CAST(gp.value->>'played' AS INTEGER) as games
-  FROM base_stats, UNNEST(base_stats.seasons."2018-2019"."games played") AS gp(value)
-  UNION ALL
-  SELECT
-    '2017-2018' as season,
-    gp.value->'person'->>'display_name' as player_name,
-    CAST(gp.value->>'played' AS INTEGER) as games
-  FROM base_stats, UNNEST(base_stats.seasons."2017-2018"."games played") AS gp(value)
-  UNION ALL
-  SELECT
-    '2016-2017' as season,
-    gp.value->'person'->>'display_name' as player_name,
-    CAST(gp.value->>'played' AS INTEGER) as games
-  FROM base_stats, UNNEST(base_stats.seasons."2016-2017"."games played") AS gp(value)
-  UNION ALL
-  SELECT
-    '2015-2016' as season,
-    gp.value->'person'->>'display_name' as player_name,
-    CAST(gp.value->>'played' AS INTEGER) as games
-  FROM base_stats, UNNEST(base_stats.seasons."2015-2016"."games played") AS gp(value)
-  UNION ALL
-  SELECT
-    '2014-2015' as season,
-    gp.value->'person'->>'display_name' as player_name,
-    CAST(gp.value->>'played' AS INTEGER) as games
-  FROM base_stats, UNNEST(base_stats.seasons."2014-2015"."games played") AS gp(value)
-),
-games_all_time AS (
+WITH games_all_time AS (
   SELECT player_name, SUM(games) as total_games, COUNT(DISTINCT season) as seasons_played
-  FROM games_played
+  FROM rugby_stats.all_games_played
   GROUP BY player_name
 ),
 yellow_all_time AS (
