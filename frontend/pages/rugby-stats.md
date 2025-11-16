@@ -8,241 +8,241 @@ Historical stats from the USA Rugby Stats system (2014-2022)
 
 ```sql points_leaders
 WITH base_stats AS (
-  SELECT * FROM read_json_auto('../../rugby_stats.json')
+  SELECT * FROM rugby_stats.rugby_data
 )
 SELECT
   '2021-2022' as season,
   p.value->'person'->>'display_name' as player_name,
   CAST(p.value->>'pts' AS INTEGER) as points
-FROM base_stats, UNNEST(base_stats."2021-2022".points) AS p(value)
+FROM base_stats, UNNEST(base_stats.seasons."2021-2022".points) AS p(value)
 UNION ALL
 SELECT
   '2019-2020' as season,
   p.value->'person'->>'display_name' as player_name,
   CAST(p.value->>'pts' AS INTEGER) as points
-FROM base_stats, UNNEST(base_stats."2019-2020".points) AS p(value)
+FROM base_stats, UNNEST(base_stats.seasons."2019-2020".points) AS p(value)
 UNION ALL
 SELECT
   '2018-2019' as season,
   p.value->'person'->>'display_name' as player_name,
   CAST(p.value->>'pts' AS INTEGER) as points
-FROM base_stats, UNNEST(base_stats."2018-2019".points) AS p(value)
+FROM base_stats, UNNEST(base_stats.seasons."2018-2019".points) AS p(value)
 UNION ALL
 SELECT
   '2017-2018' as season,
   p.value->'person'->>'display_name' as player_name,
   CAST(p.value->>'pts' AS INTEGER) as points
-FROM base_stats, UNNEST(base_stats."2017-2018".points) AS p(value)
+FROM base_stats, UNNEST(base_stats.seasons."2017-2018".points) AS p(value)
 UNION ALL
 SELECT
   '2016-2017' as season,
   p.value->'person'->>'display_name' as player_name,
   CAST(p.value->>'pts' AS INTEGER) as points
-FROM base_stats, UNNEST(base_stats."2016-2017".points) AS p(value)
+FROM base_stats, UNNEST(base_stats.seasons."2016-2017".points) AS p(value)
 UNION ALL
 SELECT
   '2015-2016' as season,
   p.value->'person'->>'display_name' as player_name,
   CAST(p.value->>'pts' AS INTEGER) as points
-FROM base_stats, UNNEST(base_stats."2015-2016".points) AS p(value)
+FROM base_stats, UNNEST(base_stats.seasons."2015-2016".points) AS p(value)
 UNION ALL
 SELECT
   '2014-2015' as season,
   p.value->'person'->>'display_name' as player_name,
   CAST(p.value->>'pts' AS INTEGER) as points
-FROM base_stats, UNNEST(base_stats."2014-2015".points) AS p(value)
+FROM base_stats, UNNEST(base_stats.seasons."2014-2015".points) AS p(value)
 WHERE points >= 5
 ```
 
 ```sql tries_leaders
 WITH base_stats AS (
-  SELECT * FROM read_json_auto('../../rugby_stats.json')
+  SELECT * FROM rugby_stats.rugby_data
 )
 SELECT
   '2021-2022' as season,
   t.value->'person'->>'display_name' as player_name,
   CAST(t.value->>'tr' AS INTEGER) as tries
-FROM base_stats, UNNEST(base_stats."2021-2022".tries) AS t(value)
+FROM base_stats, UNNEST(base_stats.seasons."2021-2022".tries) AS t(value)
 UNION ALL
 SELECT
   '2019-2020' as season,
   t.value->'person'->>'display_name' as player_name,
   CAST(t.value->>'tr' AS INTEGER) as tries
-FROM base_stats, UNNEST(base_stats."2019-2020".tries) AS t(value)
+FROM base_stats, UNNEST(base_stats.seasons."2019-2020".tries) AS t(value)
 UNION ALL
 SELECT
   '2018-2019' as season,
   t.value->'person'->>'display_name' as player_name,
   CAST(t.value->>'tr' AS INTEGER) as tries
-FROM base_stats, UNNEST(base_stats."2018-2019".tries) AS t(value)
+FROM base_stats, UNNEST(base_stats.seasons."2018-2019".tries) AS t(value)
 UNION ALL
 SELECT
   '2017-2018' as season,
   t.value->'person'->>'display_name' as player_name,
   CAST(t.value->>'tr' AS INTEGER) as tries
-FROM base_stats, UNNEST(base_stats."2017-2018".tries) AS t(value)
+FROM base_stats, UNNEST(base_stats.seasons."2017-2018".tries) AS t(value)
 UNION ALL
 SELECT
   '2016-2017' as season,
   t.value->'person'->>'display_name' as player_name,
   CAST(t.value->>'tr' AS INTEGER) as tries
-FROM base_stats, UNNEST(base_stats."2016-2017".tries) AS t(value)
+FROM base_stats, UNNEST(base_stats.seasons."2016-2017".tries) AS t(value)
 UNION ALL
 SELECT
   '2015-2016' as season,
   t.value->'person'->>'display_name' as player_name,
   CAST(t.value->>'tr' AS INTEGER) as tries
-FROM base_stats, UNNEST(base_stats."2015-2016".tries) AS t(value)
+FROM base_stats, UNNEST(base_stats.seasons."2015-2016".tries) AS t(value)
 UNION ALL
 SELECT
   '2014-2015' as season,
   t.value->'person'->>'display_name' as player_name,
   CAST(t.value->>'tr' AS INTEGER) as tries
-FROM base_stats, UNNEST(base_stats."2014-2015".tries) AS t(value)
+FROM base_stats, UNNEST(base_stats.seasons."2014-2015".tries) AS t(value)
 WHERE tries >= 2
 ```
 
 ```sql conversions_leaders
 WITH base_stats AS (
-  SELECT * FROM read_json_auto('../../rugby_stats.json')
+  SELECT * FROM rugby_stats.rugby_data
 )
 SELECT
   '2021-2022' as season,
   c.value->'person'->>'display_name' as player_name,
   CAST(c.value->>'cv' AS INTEGER) as conversions
-FROM base_stats, UNNEST(base_stats."2021-2022".conversions) AS c(value)
+FROM base_stats, UNNEST(base_stats.seasons."2021-2022".conversions) AS c(value)
 UNION ALL
 SELECT
   '2019-2020' as season,
   c.value->'person'->>'display_name' as player_name,
   CAST(c.value->>'cv' AS INTEGER) as conversions
-FROM base_stats, UNNEST(base_stats."2019-2020".conversions) AS c(value)
+FROM base_stats, UNNEST(base_stats.seasons."2019-2020".conversions) AS c(value)
 UNION ALL
 SELECT
   '2018-2019' as season,
   c.value->'person'->>'display_name' as player_name,
   CAST(c.value->>'cv' AS INTEGER) as conversions
-FROM base_stats, UNNEST(base_stats."2018-2019".conversions) AS c(value)
+FROM base_stats, UNNEST(base_stats.seasons."2018-2019".conversions) AS c(value)
 UNION ALL
 SELECT
   '2017-2018' as season,
   c.value->'person'->>'display_name' as player_name,
   CAST(c.value->>'cv' AS INTEGER) as conversions
-FROM base_stats, UNNEST(base_stats."2017-2018".conversions) AS c(value)
+FROM base_stats, UNNEST(base_stats.seasons."2017-2018".conversions) AS c(value)
 UNION ALL
 SELECT
   '2016-2017' as season,
   c.value->'person'->>'display_name' as player_name,
   CAST(c.value->>'cv' AS INTEGER) as conversions
-FROM base_stats, UNNEST(base_stats."2016-2017".conversions) AS c(value)
+FROM base_stats, UNNEST(base_stats.seasons."2016-2017".conversions) AS c(value)
 UNION ALL
 SELECT
   '2015-2016' as season,
   c.value->'person'->>'display_name' as player_name,
   CAST(c.value->>'cv' AS INTEGER) as conversions
-FROM base_stats, UNNEST(base_stats."2015-2016".conversions) AS c(value)
+FROM base_stats, UNNEST(base_stats.seasons."2015-2016".conversions) AS c(value)
 UNION ALL
 SELECT
   '2014-2015' as season,
   c.value->'person'->>'display_name' as player_name,
   CAST(c.value->>'cv' AS INTEGER) as conversions
-FROM base_stats, UNNEST(base_stats."2014-2015".conversions) AS c(value)
+FROM base_stats, UNNEST(base_stats.seasons."2014-2015".conversions) AS c(value)
 WHERE conversions >= 1
 ```
 
 ```sql penalty_kicks_leaders
 WITH base_stats AS (
-  SELECT * FROM read_json_auto('../../rugby_stats.json')
+  SELECT * FROM rugby_stats.rugby_data
 )
 SELECT
   '2021-2022' as season,
   pk.value->'person'->>'display_name' as player_name,
   CAST(pk.value->>'pk' AS INTEGER) as penalty_kicks
-FROM base_stats, UNNEST(base_stats."2021-2022"."penalty kicks") AS pk(value)
+FROM base_stats, UNNEST(base_stats.seasons."2021-2022"."penalty kicks") AS pk(value)
 UNION ALL
 SELECT
   '2019-2020' as season,
   pk.value->'person'->>'display_name' as player_name,
   CAST(pk.value->>'pk' AS INTEGER) as penalty_kicks
-FROM base_stats, UNNEST(base_stats."2019-2020"."penalty kicks") AS pk(value)
+FROM base_stats, UNNEST(base_stats.seasons."2019-2020"."penalty kicks") AS pk(value)
 UNION ALL
 SELECT
   '2018-2019' as season,
   pk.value->'person'->>'display_name' as player_name,
   CAST(pk.value->>'pk' AS INTEGER) as penalty_kicks
-FROM base_stats, UNNEST(base_stats."2018-2019"."penalty kicks") AS pk(value)
+FROM base_stats, UNNEST(base_stats.seasons."2018-2019"."penalty kicks") AS pk(value)
 UNION ALL
 SELECT
   '2017-2018' as season,
   pk.value->'person'->>'display_name' as player_name,
   CAST(pk.value->>'pk' AS INTEGER) as penalty_kicks
-FROM base_stats, UNNEST(base_stats."2017-2018"."penalty kicks") AS pk(value)
+FROM base_stats, UNNEST(base_stats.seasons."2017-2018"."penalty kicks") AS pk(value)
 UNION ALL
 SELECT
   '2016-2017' as season,
   pk.value->'person'->>'display_name' as player_name,
   CAST(pk.value->>'pk' AS INTEGER) as penalty_kicks
-FROM base_stats, UNNEST(base_stats."2016-2017"."penalty kicks") AS pk(value)
+FROM base_stats, UNNEST(base_stats.seasons."2016-2017"."penalty kicks") AS pk(value)
 UNION ALL
 SELECT
   '2015-2016' as season,
   pk.value->'person'->>'display_name' as player_name,
   CAST(pk.value->>'pk' AS INTEGER) as penalty_kicks
-FROM base_stats, UNNEST(base_stats."2015-2016"."penalty kicks") AS pk(value)
+FROM base_stats, UNNEST(base_stats.seasons."2015-2016"."penalty kicks") AS pk(value)
 UNION ALL
 SELECT
   '2014-2015' as season,
   pk.value->'person'->>'display_name' as player_name,
   CAST(pk.value->>'pk' AS INTEGER) as penalty_kicks
-FROM base_stats, UNNEST(base_stats."2014-2015"."penalty kicks") AS pk(value)
+FROM base_stats, UNNEST(base_stats.seasons."2014-2015"."penalty kicks") AS pk(value)
 WHERE penalty_kicks >= 1
 ```
 
 ```sql games_played_data
 WITH base_stats AS (
-  SELECT * FROM read_json_auto('../../rugby_stats.json')
+  SELECT * FROM rugby_stats.rugby_data
 )
 SELECT
   '2021-2022' as season,
   gp.value->'person'->>'display_name' as player_name,
   CAST(gp.value->>'played' AS INTEGER) as games
-FROM base_stats, UNNEST(base_stats."2021-2022"."games played") AS gp(value)
+FROM base_stats, UNNEST(base_stats.seasons."2021-2022"."games played") AS gp(value)
 UNION ALL
 SELECT
   '2019-2020' as season,
   gp.value->'person'->>'display_name' as player_name,
   CAST(gp.value->>'played' AS INTEGER) as games
-FROM base_stats, UNNEST(base_stats."2019-2020"."games played") AS gp(value)
+FROM base_stats, UNNEST(base_stats.seasons."2019-2020"."games played") AS gp(value)
 UNION ALL
 SELECT
   '2018-2019' as season,
   gp.value->'person'->>'display_name' as player_name,
   CAST(gp.value->>'played' AS INTEGER) as games
-FROM base_stats, UNNEST(base_stats."2018-2019"."games played") AS gp(value)
+FROM base_stats, UNNEST(base_stats.seasons."2018-2019"."games played") AS gp(value)
 UNION ALL
 SELECT
   '2017-2018' as season,
   gp.value->'person'->>'display_name' as player_name,
   CAST(gp.value->>'played' AS INTEGER) as games
-FROM base_stats, UNNEST(base_stats."2017-2018"."games played") AS gp(value)
+FROM base_stats, UNNEST(base_stats.seasons."2017-2018"."games played") AS gp(value)
 UNION ALL
 SELECT
   '2016-2017' as season,
   gp.value->'person'->>'display_name' as player_name,
   CAST(gp.value->>'played' AS INTEGER) as games
-FROM base_stats, UNNEST(base_stats."2016-2017"."games played") AS gp(value)
+FROM base_stats, UNNEST(base_stats.seasons."2016-2017"."games played") AS gp(value)
 UNION ALL
 SELECT
   '2015-2016' as season,
   gp.value->'person'->>'display_name' as player_name,
   CAST(gp.value->>'played' AS INTEGER) as games
-FROM base_stats, UNNEST(base_stats."2015-2016"."games played") AS gp(value)
+FROM base_stats, UNNEST(base_stats.seasons."2015-2016"."games played") AS gp(value)
 UNION ALL
 SELECT
   '2014-2015' as season,
   gp.value->'person'->>'display_name' as player_name,
   CAST(gp.value->>'played' AS INTEGER) as games
-FROM base_stats, UNNEST(base_stats."2014-2015"."games played") AS gp(value)
+FROM base_stats, UNNEST(base_stats.seasons."2014-2015"."games played") AS gp(value)
 WHERE games >= 1
 ```
 

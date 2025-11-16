@@ -40,87 +40,87 @@ This archive contains **9 comprehensive stat categories** from all available sea
 
 ```sql total_stats
 WITH base_stats AS (
-  SELECT * FROM read_json_auto('../../rugby_stats.json')
+  SELECT * FROM rugby_stats.rugby_data
 ),
 all_players AS (
   SELECT DISTINCT
     p.value->'person'->>'display_name' as player_name,
     '2021-2022' as season
-  FROM base_stats, UNNEST(base_stats."2021-2022".points) AS p(value)
+  FROM base_stats, UNNEST(base_stats.seasons."2021-2022".points) AS p(value)
   UNION
   SELECT DISTINCT
     p.value->'person'->>'display_name' as player_name,
     '2019-2020' as season
-  FROM base_stats, UNNEST(base_stats."2019-2020".points) AS p(value)
+  FROM base_stats, UNNEST(base_stats.seasons."2019-2020".points) AS p(value)
   UNION
   SELECT DISTINCT
     p.value->'person'->>'display_name' as player_name,
     '2018-2019' as season
-  FROM base_stats, UNNEST(base_stats."2018-2019".points) AS p(value)
+  FROM base_stats, UNNEST(base_stats.seasons."2018-2019".points) AS p(value)
   UNION
   SELECT DISTINCT
     p.value->'person'->>'display_name' as player_name,
     '2017-2018' as season
-  FROM base_stats, UNNEST(base_stats."2017-2018".points) AS p(value)
+  FROM base_stats, UNNEST(base_stats.seasons."2017-2018".points) AS p(value)
   UNION
   SELECT DISTINCT
     p.value->'person'->>'display_name' as player_name,
     '2016-2017' as season
-  FROM base_stats, UNNEST(base_stats."2016-2017".points) AS p(value)
+  FROM base_stats, UNNEST(base_stats.seasons."2016-2017".points) AS p(value)
   UNION
   SELECT DISTINCT
     p.value->'person'->>'display_name' as player_name,
     '2015-2016' as season
-  FROM base_stats, UNNEST(base_stats."2015-2016".points) AS p(value)
+  FROM base_stats, UNNEST(base_stats.seasons."2015-2016".points) AS p(value)
   UNION
   SELECT DISTINCT
     p.value->'person'->>'display_name' as player_name,
     '2014-2015' as season
-  FROM base_stats, UNNEST(base_stats."2014-2015".points) AS p(value)
+  FROM base_stats, UNNEST(base_stats.seasons."2014-2015".points) AS p(value)
 ),
 points_data AS (
   SELECT CAST(p.value->>'pts' AS INTEGER) as points
-  FROM base_stats, UNNEST(base_stats."2021-2022".points) AS p(value)
+  FROM base_stats, UNNEST(base_stats.seasons."2021-2022".points) AS p(value)
   UNION ALL
   SELECT CAST(p.value->>'pts' AS INTEGER)
-  FROM base_stats, UNNEST(base_stats."2019-2020".points) AS p(value)
+  FROM base_stats, UNNEST(base_stats.seasons."2019-2020".points) AS p(value)
   UNION ALL
   SELECT CAST(p.value->>'pts' AS INTEGER)
-  FROM base_stats, UNNEST(base_stats."2018-2019".points) AS p(value)
+  FROM base_stats, UNNEST(base_stats.seasons."2018-2019".points) AS p(value)
   UNION ALL
   SELECT CAST(p.value->>'pts' AS INTEGER)
-  FROM base_stats, UNNEST(base_stats."2017-2018".points) AS p(value)
+  FROM base_stats, UNNEST(base_stats.seasons."2017-2018".points) AS p(value)
   UNION ALL
   SELECT CAST(p.value->>'pts' AS INTEGER)
-  FROM base_stats, UNNEST(base_stats."2016-2017".points) AS p(value)
+  FROM base_stats, UNNEST(base_stats.seasons."2016-2017".points) AS p(value)
   UNION ALL
   SELECT CAST(p.value->>'pts' AS INTEGER)
-  FROM base_stats, UNNEST(base_stats."2015-2016".points) AS p(value)
+  FROM base_stats, UNNEST(base_stats.seasons."2015-2016".points) AS p(value)
   UNION ALL
   SELECT CAST(p.value->>'pts' AS INTEGER)
-  FROM base_stats, UNNEST(base_stats."2014-2015".points) AS p(value)
+  FROM base_stats, UNNEST(base_stats.seasons."2014-2015".points) AS p(value)
 ),
 tries_data AS (
   SELECT CAST(t.value->>'tr' AS INTEGER) as tries
-  FROM base_stats, UNNEST(base_stats."2021-2022".tries) AS t(value)
+  FROM base_stats, UNNEST(base_stats.seasons."2021-2022".tries) AS t(value)
   UNION ALL
   SELECT CAST(t.value->>'tr' AS INTEGER)
-  FROM base_stats, UNNEST(base_stats."2019-2020".tries) AS t(value)
+  FROM base_stats, UNNEST(base_stats.seasons."2019-2020".tries) AS t(value)
   UNION ALL
   SELECT CAST(t.value->>'tr' AS INTEGER)
-  FROM base_stats, UNNEST(base_stats."2018-2019".tries) AS t(value)
+  FROM base_stats, UNNEST(base_stats.seasons."2018-2019".tries) AS t(value)
   UNION ALL
   SELECT CAST(t.value->>'tr' AS INTEGER)
-  FROM base_stats, UNNEST(base_stats."2017-2018".tries) AS t(value)
+  FROM base_stats, UNNEST(base_stats.seasons."2017-2018".tries) AS t(value)
   UNION ALL
   SELECT CAST(t.value->>'tr' AS INTEGER)
-  FROM base_stats, UNNEST(base_stats."2016-2017".tries) AS t(value)
+  FROM base_stats, UNNEST(base_stats.seasons."2016-2017".tries) AS t(value)
   UNION ALL
   SELECT CAST(t.value->>'tr' AS INTEGER)
-  FROM base_stats, UNNEST(base_stats."2015-2016".tries) AS t(value)
+  FROM base_stats, UNNEST(base_stats.seasons."2015-2016".tries) AS t(value)
   UNION ALL
   SELECT CAST(t.value->>'tr' AS INTEGER)
-  FROM base_stats, UNNEST(base_stats."2014-2015".tries) AS t(value)
+  FROM base_stats, UNNEST(base_stats.seasons."2014-2015".tries) AS t(value)
 )
 SELECT
     COUNT(DISTINCT player_name) as total_players,
