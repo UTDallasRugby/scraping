@@ -8,12 +8,12 @@ This document summarizes the rugby statistics extracted from the old blog posts 
 
 ### Files Generated
 
-| File                   | Records | Description              |
-| ---------------------- | ------- | ------------------------ |
-| `blog_matches.csv`     | 4       | Match scores and results |
-| `blog_try_scorers.csv` | 6       | Players who scored tries |
-| `blog_conversions.csv` | 1       | Conversion statistics    |
-| `blog_lineups.csv`     | 49      | Team lineups by position |
+| File                   | Records | Description                                    |
+| ---------------------- | ------- | ---------------------------------------------- |
+| `blog_matches.csv`     | 6       | Match scores and results                       |
+| `blog_try_scorers.csv` | 7       | Players who scored tries                       |
+| `blog_conversions.csv` | 2       | Conversions and penalty kicks                  |
+| `blog_lineups.csv`     | 49      | Team lineups by position (starters & reserves) |
 
 ### Source Posts Analyzed
 
@@ -21,14 +21,24 @@ The script processed **10 blog posts** from the RSS feed (2018-01-21 to 2018-08-
 
 1. **"Recap of Abilene Christian match"** (2018-01-28)
 
-   - 1 match, 6 try scorers, 1 conversion stat, 21 lineup entries
+   - 1 match (UTD 55 - ACU 0)
+   - 6 try scorers (Jackson 3, Steven L. 2, Lewis, Eric, Aly, Edmund)
+   - 1 conversion stat (Lewis Hopkins 5/9)
+   - 21 lineup entries (15 starters + 6 reserves)
 
 2. **"Recap of 1st day of Lonestar Playoffs"** (2018-02-24)
 
-   - 3 match scores, 0 try scorers, 0 conversions, 0 lineups
+   - 4 match scores (includes intermediate scores and half-time)
+   - Texas St. matches: 33-31 and 40-33 (final)
+   - Angelo St. 57 - unknown 0 (from narrative)
+   - Half-time tied 17-17
 
 3. **"Recap of UNT friendly"** (2018-01-21)
-   - 0 matches, 0 try scorers, 0 conversions, 28 lineup entries
+
+   - 1 match (UNT 64 - UTD 3)
+   - 1 try scorer (Daniel, reserve/substitute)
+   - 1 penalty kick (Lewis)
+   - 28 lineup entries (from 2 separate matches)
 
 ## Data Quality Notes
 
@@ -71,6 +81,18 @@ One record is a half-time score (tied 17-17) rather than a final score:
 The half-time score entry has `opponent: "Unknown"` because the regex couldn't definitively match it.
 
 **Action Required**: From the blog context, the opponent was University of Dallas (UD). Update manually if needed.
+
+#### 4. Angelo St. Score (2018-02-24)
+
+One score was extracted from narrative text "losing 57 to 0":
+
+```csv
+2018-02-24,Unknown,0,57,medium,Score from narrative (opponent unknown),Recap of 1st day of Lonestar Playoffs
+```
+
+**Context**: The blog mentions "Texas St. was clearly outplayed by Angelo St. losing 57 to 0."
+
+**Action Required**: Update opponent from "Unknown" to "Angelo St." (or "Angelo State") manually.
 
 ## Usage Recommendations
 
@@ -173,12 +195,30 @@ The tests use actual content from the blog posts to prevent regressions.
 
 ### Extraction Patterns
 
-The script uses regex patterns to extract:
+The script uses multiple regex patterns to extract stats from varied text formats:
 
-- **Match scores**: `"UTD 55, ACU 0"`, `"UT Dallas 40, Texas St. 33"`
-- **Try scorers**: `"Jackson (3 Trys)"`, `"Lewis, Eric scoring 1 Try each"`
-- **Conversions**: `"Lewis Hopkins converted 5 of 9 Trys"`
-- **Lineups**: Numbered position lists (1-15 starters, 16+ reserves)
+**Match scores:**
+
+- Direct format: `"UTD 55, ACU 0"`, `"UT Dallas 40, Texas St. 33"`
+- Opponent-first: `"UNT 64 to UT Dallas' 3"`
+- Narrative: `"losing 57 to 0"`, `"score even at 17"`
+
+**Try scorers:**
+
+- Parenthetical: `"Jackson (3 Trys)"`, `"Steven L. (2 Trys)"`
+- List format: `"Lewis, Eric, Aly scoring 1 Try each"`
+- Narrative: `"Daniel managed to score a try"`
+- Reserves: `"Daniel came in...and managed to score a try"`
+
+**Conversions and kicks:**
+
+- Conversions: `"Lewis Hopkins converted 5 of 9 Trys"`
+- Penalty kicks: `"penalty kick made by Lewis"`
+
+**Lineups:**
+
+- Numbered position lists (1-15 starters, 16+ reserves)
+- Handles multiple matches in same post
 
 ### Limitations
 

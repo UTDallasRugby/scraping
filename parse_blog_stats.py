@@ -57,14 +57,40 @@ def extract_match_scores(text: str, post_date: str, post_title: str) -> list[dic
             }
         )
 
-    # Pattern 2: "UD 22, UTD 17" (opponent first)
-    pattern2 = r"(\w+(?:\s+\w+)?)\s+(\d+)[,\s]+(?:to\s+)?(?:UTD|UT Dallas)\s+(\d+)"
-    for match in re.finditer(pattern2, text, re.IGNORECASE):
+    # Pattern 2: "UD 22, UTD 17" or "UNT 64 to UT Dallas' 3" (opponent first)
+    # Use word boundary to avoid capturing "was UNT"
+    pattern2 = (
+        r"\b([A-Z]+(?:\s+[A-Z][a-z]+)?)\s+(\d+)\s+to\s+(?:UTD|UT Dallas)['\s]*(\d+)"
+    )
+    for match in re.finditer(pattern2, text):
         opponent = match.group(1).strip()
         opp_score = int(match.group(2))
         utd_score = int(match.group(3))
 
         # Skip if we already found this match in pattern1
+        if not any(
+            m["opponent"] == opponent and m["utd_score"] == utd_score for m in matches
+        ):
+            matches.append(
+                {
+                    "date": post_date,
+                    "opponent": opponent,
+                    "utd_score": utd_score,
+                    "opponent_score": opp_score,
+                    "confidence": "high",
+                    "notes": "",
+                    "source_title": post_title,
+                }
+            )
+
+    # Pattern 2b: "UD 22, UTD 17" (opponent first, comma-separated)
+    pattern2b = r"(\w+(?:\s+\w+)?)\s+(\d+),\s+(?:UTD|UT Dallas)\s+(\d+)"
+    for match in re.finditer(pattern2b, text, re.IGNORECASE):
+        opponent = match.group(1).strip()
+        opp_score = int(match.group(2))
+        utd_score = int(match.group(3))
+
+        # Skip if we already found this match
         if not any(
             m["opponent"] == opponent and m["utd_score"] == utd_score for m in matches
         ):
@@ -103,9 +129,32 @@ def extract_match_scores(text: str, post_date: str, post_title: str) -> list[dic
                 }
             )
 
-    # Pattern 4: Looser pattern for "score even at 17" (half-time scores)
-    pattern4 = r"score\s+even\s+at\s+(\d+)"
+    # Pattern 4: "losing 57 to 0" or "won 22 to 17" (opponent first in narrative)
+    pattern4 = r"(?:losing|lost)\s+(\d+)\s+to\s+(\d+)"
     for match in re.finditer(pattern4, text, re.IGNORECASE):
+        opp_score = int(match.group(1))
+        utd_score = int(match.group(2))
+
+        # Skip if we already found this score
+        if not any(
+            m["utd_score"] == utd_score and m["opponent_score"] == opp_score
+            for m in matches
+        ):
+            matches.append(
+                {
+                    "date": post_date,
+                    "opponent": "Unknown",
+                    "utd_score": utd_score,
+                    "opponent_score": opp_score,
+                    "confidence": "medium",
+                    "notes": "Score from narrative (opponent unknown)",
+                    "source_title": post_title,
+                }
+            )
+
+    # Pattern 5: Looser pattern for "score even at 17" (half-time scores)
+    pattern5 = r"score\s+even\s+at\s+(\d+)"
+    for match in re.finditer(pattern5, text, re.IGNORECASE):
         score = int(match.group(1))
         matches.append(
             {
@@ -166,13 +215,21 @@ def extract_try_scorers(text: str, post_date: str, post_title: str) -> list[dict
                     }
                 )
 
-    # Pattern 3: "Daniel managed to score a try"
-    pattern3 = r"(\w+)\s+(?:managed\s+to\s+)?scor(?:e|ed)\s+a\s+try"
-    for match in re.finditer(pattern3, text, re.IGNORECASE):
+    # Pattern 3: "Daniel managed to score a try" or "Daniel scored a try"
+    pattern3 = r"\b([A-Z][\w]+)\s+(?:managed\s+to\s+)?scor(?:e|ed)\s+a\s+try"
+    for match in re.finditer(pattern3, text):
         player_name = match.group(1).strip()
 
         # Skip common words that might match
-        if player_name.lower() not in ["to", "the", "and", "we", "they"]:
+        if player_name.lower() not in [
+            "to",
+            "the",
+            "and",
+            "we",
+            "they",
+            "this",
+            "that",
+        ]:
             try_scorers.append(
                 {
                     "date": post_date,
@@ -180,6 +237,24 @@ def extract_try_scorers(text: str, post_date: str, post_title: str) -> list[dict
                     "tries_scored": 1,
                     "confidence": "medium",
                     "notes": "Narrative mention",
+                    "source_title": post_title,
+                }
+            )
+
+    # Pattern 4: "Daniel came in...and managed to score a try" (narrative with distance)
+    pattern4 = r"\b([A-Z][\w]+)\s+(?:came in|came on|playing|as a).*?(?:and\s+)?managed to score a try"
+    for match in re.finditer(pattern4, text, re.DOTALL):
+        player_name = match.group(1).strip()
+
+        # Skip if already found this player in this post
+        if not any(s["player_name"] == player_name for s in try_scorers):
+            try_scorers.append(
+                {
+                    "date": post_date,
+                    "player_name": player_name,
+                    "tries_scored": 1,
+                    "confidence": "medium",
+                    "notes": "Narrative mention (reserve/substitute)",
                     "source_title": post_title,
                 }
             )
@@ -208,6 +283,23 @@ def extract_conversions(text: str, post_date: str, post_title: str) -> list[dict
                 "conversions_attempted": attempted,
                 "confidence": "high",
                 "notes": "",
+                "source_title": post_title,
+            }
+        )
+
+    # Pattern 2: "penalty kick made by Lewis" (narrative)
+    pattern2 = r"penalty kick.*?made by ([A-Z][\w]+(?:\s+[A-Z][\w]+)?)"
+    for match in re.finditer(pattern2, text):
+        kicker_name = match.group(1).strip()
+
+        conversions.append(
+            {
+                "date": post_date,
+                "kicker_name": kicker_name,
+                "conversions_made": 1,
+                "conversions_attempted": 1,
+                "confidence": "medium",
+                "notes": "Penalty kick (narrative mention)",
                 "source_title": post_title,
             }
         )
